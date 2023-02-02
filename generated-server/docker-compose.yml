@@ -3,13 +3,24 @@ services:
   contacts-api:
     build: .
     ports:
-      - "8080:8080"
+      - "${PORT:-8080}:8080"
     restart: on-failure
+    environment:
+      - NODE_ENV=production
     depends_on:
       - mongodb
+    volumes:
+      - "logging:/usr/src/app/logs"
   mongodb:
     image: "mongo"
+    command: --logpath /var/log/mongodb/db.log
     ports:
       - "27017:27017"
     volumes:
-      - "./data:/data/db"
+      - "datavol:/data/db"
+      - "logging:/var/log/mongodb"
+volumes:
+  logging:
+    external: true
+  datavol:
+  

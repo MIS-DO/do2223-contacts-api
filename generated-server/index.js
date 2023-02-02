@@ -16,24 +16,24 @@ const config = {
         }
     }
 }
-
+var logger = require('./logger');
 // Initialize database before running the app
 var db = require('./db');
 db.connect(function (err, _db) {
-  console.info('Initializing DB...');
+  logger.info('Initializing DB...');
   if(err) {
-    console.error('Error connecting to DB!', err);
-    return 1;
+    logger.error('Error connecting to DB!', err);
+    setTimeout(function () {process.exit(1); },1000);
   } else {
     db.find({}, function (err, contacts) {
       if(err) {
-        console.error('Error while getting initial data from DB!', err);
+        logger.error('Error while getting initial data from DB!', err);
       } else {
         if (contacts.length === 0) {
-          console.info('Empty DB, loading initial data...');
+          logger.info('Empty DB, loading initial data...');
           db.init();
       } else {
-          console.info('DB already has ' + contacts.length + ' contacts.');
+          logger.info('DB already has ' + contacts.length + ' contacts.');
       }
       }
     });
