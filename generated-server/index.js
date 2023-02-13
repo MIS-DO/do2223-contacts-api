@@ -42,6 +42,12 @@ db.connect(function (err, _db) {
 
 initialize(app, config).then(() => {
     http.createServer(app).listen(serverPort, () => {
+
+    app.get('/crash', (req,res) => {
+        setTimeout(()=>{console.log("KBOOM!!!");process.exit(1)}, 3000);
+        res.send("crashing in 3 seconds...");
+    });
+
     console.log("\nApp running at http://localhost:" + serverPort);
     console.log("________________________________________________________________");
     if (config.middleware.swagger?.disable !== false) {

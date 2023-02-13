@@ -6,10 +6,14 @@ var path = require('path');
 var logger = require('./logger');
 
 // Connection URL
-const url = 'mongodb://mongodb:27017';
+var url = 'mongodb://mongodb:27017';
 
 // Database Name
 const dbName = 'contacts';
+
+if(process.env.MONGO_URL){
+    url = process.env.MONGO_URL;
+}
 
 // Create a new MongoClient
 const client = new MongoClient(url);

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ks-api
+  name: ks-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ks-api-pod
+  template:
+    metadata:
+      labels:
+        app: ks-api-pod
+    spec:
+      containers:
+      - name: ks-api-container
+        resources: {}
+        image: pafmon/ks-api
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
